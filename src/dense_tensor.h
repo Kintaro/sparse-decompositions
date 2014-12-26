@@ -4,6 +4,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <numeric>
 #include <glog/logging.h>
 #include <limits>
 #include <type_traits>
@@ -94,10 +95,7 @@ DenseTensor<T, P>& DenseTensor<T, P>::Set(const Index& index, const T value) {
 
 template <typename T, std::size_t P>
 void DenseTensor<T, P>::Allocate() {
-  std::uint64_t total_size = 1;
-  for (const std::uint64_t size : size_) {
-    total_size = MultiplyOrDie(total_size, size);
-  }
+  const auto total_size = std::accumulate(std::begin(size_), std::end(size_), 1, MultiplyOrDie<std::uint64_t>);
   data_.resize(total_size);
 }
 
