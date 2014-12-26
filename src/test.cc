@@ -18,28 +18,23 @@
 //
 // (1)
 
+#include <glog/logging.h>
+
 #include <cstdio>
 
-#include "tensor.h"
 #include "dense_tensor.h"
-#include "storage.h"
-#include "dense_storage.h"
 
 int main(int argc, char** argv) {
-  DenseStorage<float, 3> storage({{3, 3, 3}});
+  google::InitGoogleLogging(argv[0]);
 
-  for (std::size_t i = 0; i < storage.size(0); ++i) {
-    for (std::size_t j = 0; j < storage.size(1); ++j) {
-      for (std::size_t k = 0; k < storage.size(2); ++k) {
-        storage.Set({{i, j, k}}, i + j + k);
-      }
-    }
-  }
+  DenseTensor<float, 3> X({{2, 2, 2}});
 
-  for (std::size_t i = 0; i < storage.size(0); ++i) {
-    for (std::size_t j = 0; j < storage.size(1); ++j) {
-      for (std::size_t k = 0; k < storage.size(2); ++k) {
-        printf("%lu %lu %lu => %f\n", i, j, k, storage.Get({{i, j, k}}));
+  X.Set({{0, 0, 0}}, 1.0f);
+
+  for (std::uint64_t i = 0; i < 2; ++i) {
+    for (std::uint64_t j = 0; j < 2; ++j) {
+      for (std::uint64_t k = 0; k < 2; ++k) {
+        printf("%lu %lu %lu => %f\n", i, j, k, X.Get({{i, j, k}}));
       }
     }
   }
