@@ -63,9 +63,6 @@ class DenseTensor {
   // Allocates tensor storage.
   void Allocate();
 
-  // Linearizes an index.
-  inline std::uint64_t LinearizeIndex(const Index& index) const;
-
   // Sizes of individual tensor modes.
   const Index size_;
 
