@@ -79,7 +79,7 @@ class DenseTensor {
 template <typename T, std::size_t P>
 DenseTensor<T, P>::DenseTensor(const Index& size)
     : size_(size) {
-  std::for_each(size_.cbegin(), size_.cend(), [](std::uint64_t x) { CHECK_LT(0, x); });
+  std::for_each(size_.cbegin(), size_.cend(), [](const std::uint64_t x) { CHECK_LT(0, x); });
   Allocate();
 }
 
