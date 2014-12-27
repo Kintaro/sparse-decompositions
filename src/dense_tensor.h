@@ -18,7 +18,9 @@ namespace {
 template <typename T>
 typename std::enable_if<std::is_arithmetic<T>::value&& std::is_unsigned<T>::value, T>::type
 MultiplyOrDie(const T lhs, const T rhs) {
-  CHECK_GT(std::numeric_limits<T>::max() / lhs, rhs);
+  if (lhs != T(0)) {
+      CHECK_GT(std::numeric_limits<T>::max() / lhs, rhs);
+  }
   return lhs * rhs;
 }
 
