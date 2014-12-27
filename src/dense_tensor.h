@@ -4,6 +4,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <algorithm>
 #include <numeric>
 #include <glog/logging.h>
 #include <limits>
@@ -60,6 +61,8 @@ class DenseTensor {
   // Returns the volume of the tensor.
   inline std::uint64_t volume() const { return data_.size(); }
 
+  inline T& operator[](const Index& index) const { this->Get(index); }
+
  private:
   // Allocates tensor storage.
   void Allocate();
@@ -74,9 +77,7 @@ class DenseTensor {
 template <typename T, std::size_t P>
 DenseTensor<T, P>::DenseTensor(const Index& size)
     : size_(size) {
-  for (auto mode = 0; mode < P; ++mode) {
-    CHECK_LT(0, size_[mode]);
-  }
+  std::for_each(size_.cbegin(), size_.cend(), [](std::uint64_t x) { CHECK_LT(0, x); });
   Allocate();
 }
 
@@ -95,7 +96,7 @@ DenseTensor<T, P>& DenseTensor<T, P>::Set(const Index& index, const T value) {
 
 template <typename T, std::size_t P>
 void DenseTensor<T, P>::Allocate() {
-  const auto total_size = std::accumulate(std::begin(size_), std::end(size_), 1, MultiplyOrDie<std::uint64_t>);
+  const auto total_size = std::accumulate(size_.cbegin(), size_.cend(), 1, MultiplyOrDie<std::uint64_t>);
   data_.resize(total_size);
 }
 
