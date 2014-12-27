@@ -85,13 +85,13 @@ DenseTensor<T, P>::DenseTensor(const Index& size)
 
 template <typename T, std::size_t P>
 const T& DenseTensor<T, P>::Get(const Index& index) const {
-  const std::uint64_t linear_index = IndexHelper<P, P - 1>::LinearizeIndex(index, size_);
+  const auto linear_index = IndexHelper<P, P - 1>::LinearizeIndex(index, size_);
   return data_[linear_index];
 }
 
 template <typename T, std::size_t P>
 DenseTensor<T, P>& DenseTensor<T, P>::Set(const Index& index, const T value) {
-  const std::uint64_t linear_index = IndexHelper<P, P - 1>::LinearizeIndex(index, size_);
+  const auto linear_index = IndexHelper<P, P - 1>::LinearizeIndex(index, size_);
   data_[linear_index] = value;
   return *this;
 }
