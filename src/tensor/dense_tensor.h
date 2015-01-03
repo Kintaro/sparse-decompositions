@@ -31,7 +31,7 @@ class DenseTensor : public expr::TensorExpr<DenseTensor<ValueType, Order>, Value
   const value_type& operator[](const pos_type&) const override;
 
   // Returns the Frobenius norm of the tensor.
-  value_type ComputeNorm() const;
+  value_type abs() const;
 
   // Returns the dimensions of the tensor.
   pos_type dimensions() const;
