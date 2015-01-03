@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <limits>
 
-#include "dense_tensor.h"
+#include "tensor/dense_tensor.h"
 
 namespace {
 
@@ -74,19 +74,19 @@ TEST(DenseTensor, SubscriptOperatorSanityCheck) {
   EXPECT_EQ(-14.5f, (tensor[{{3, 7}}]));
 }
 
-TEST(DenseTensor, ComputeNormSanityCheck) {
+TEST(DenseTensor, AbsSanityCheck) {
   // The zero tensor should have norm zero.
   DenseTensor<float, 2> tensor({{2, 2}});
-  EXPECT_EQ(0, tensor.ComputeNorm());
+  EXPECT_EQ(0, tensor.abs());
 
   tensor[{{0, 0}}] = 1.0f;
   tensor[{{0, 1}}] = 2.0f;
   tensor[{{1, 0}}] = 3.0f;
   tensor[{{1, 1}}] = 4.0f;
-  EXPECT_FLOAT_EQ(5.477225575, tensor.ComputeNorm());
+  EXPECT_FLOAT_EQ(5.477225575, tensor.abs());
 
   tensor[{{0, 1}}] *= -1.0f;
-  EXPECT_FLOAT_EQ(5.477225575, tensor.ComputeNorm());
+  EXPECT_FLOAT_EQ(5.477225575, tensor.abs());
 }
 
 TEST(DenseTensor, DimensionsSanityCheck) {
