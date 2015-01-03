@@ -19,4 +19,10 @@ operator[](const pos_type& i) const {
   return static_cast<const ExprType&>(*this)[i];
 }
 
+template <typename ExprType, typename ValueType, std::size_t Order>
+typename TensorExpr<ExprType, ValueType, Order>::value_type
+TensorExpr<ExprType, ValueType, Order>::abs() const {
+  return static_cast<const ExprType&>(*this).abs();
+}
+
 }  // namespace expr

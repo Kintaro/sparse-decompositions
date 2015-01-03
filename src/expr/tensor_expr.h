@@ -6,6 +6,7 @@
 
 namespace expr {
 
+// TODO(mnett): Introduce storage types and add materialize() function.
 template <typename ExprType, typename ValueType, std::size_t Order>
 class TensorExpr {
  public:
@@ -22,8 +23,11 @@ class TensorExpr {
   // Retrieves the value at the designated index from within the tensor produced by this expression.
   virtual const value_type& operator[](const pos_type&) const;
 
+  // Returns the Frobenius norm of the tensor produced by this expression.
+  virtual value_type abs() const;
+
   operator ExprType&() { return static_cast<ExprType&>(*this); }
-  operator const ExprType&() { return static_cast<const ExprType&>(*this); }
+  operator const ExprType&() const { return static_cast<const ExprType&>(*this); }
 };
 
 }  // namespace expr
