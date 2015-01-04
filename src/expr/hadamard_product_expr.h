@@ -3,6 +3,7 @@
 
 #include "expr/expr_util.h"
 #include "expr/tensor_expr.h"
+#include "tensor/storage_mode.h"
 
 namespace expr {
 
@@ -41,6 +42,14 @@ class HadamardProductExpr
   value_type abs() const override {
     CHECK(false) << "Not implemented yet!";
     return value_type{0};    
+  }
+
+  tensor::StorageMode GetPreferredStorageMode() const override {
+    // The Hadamard product results in a sparse tensor if at least one of its operands is sparse.
+    if (first_expr_.GetPreferredStorageMode() == tensor::StorageMode::DENSE) {
+      return second_expr_.GetPreferredStorageMode();
+    }
+    return tensor::StorageMode::SPARSE;
   }
 
  private:

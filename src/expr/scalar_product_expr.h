@@ -1,7 +1,8 @@
 #ifndef EXPR_SCALAR_PRODUCT_EXPR_H_
 #define EXPR_SCALAR_PRODUCT_EXPR_H_
 
-#include "tensor_expr.h"
+#include "expr/tensor_expr.h"
+#include "tensor/storage_mode.h"
 
 namespace expr {
 
@@ -32,6 +33,10 @@ class ScalarProductExpr
   value_type abs() const override {
     CHECK(false) << "Not implemented yet!";
     return value_type{0};
+  }
+
+  tensor::StorageMode GetPreferredStorageMode() const override {
+    return expr_.GetPreferredStorageMode();
   }
 
  private:
