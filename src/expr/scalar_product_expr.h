@@ -17,10 +17,22 @@ class ScalarProductExpr
   // Create a scalar product expression representing the product of a scalar and a tensor.
   ScalarProductExpr(const ValueType& scalar, const ExprType& expr);
 
-  pos_type dimensions() const override;
-  size_type size() const override;
-  const value_type operator[](const pos_type& i) const override;
-  value_type abs() const override;
+  pos_type dimensions() const override {
+    return expr_.dimensions();
+  }
+
+  size_type size() const override {
+    return expr_.size();
+  }
+
+  const value_type Get(const pos_type& index) const override {
+    return scalar_ * expr_.Get(index);
+  }
+
+  value_type abs() const override {
+    CHECK(false) << "Not implemented yet!";
+    return value_type{0};
+  }
 
  private:
   const ValueType scalar_;
@@ -40,7 +52,5 @@ const expr::ScalarProductExpr<ExprType, ValueType, Order> operator*(
     const expr::TensorExpr<ExprType, ValueType, Order>& tensor, const ValueType& scalar) {
   return expr::ScalarProductExpr<ExprType, ValueType, Order>(scalar, tensor);
 }
-
-#include "scalar_product_expr-inl.h"
 
 #endif  // EXPR_SCALAR_PRODUCT_EXPR_H_

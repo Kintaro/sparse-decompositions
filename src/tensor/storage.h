@@ -7,6 +7,8 @@
 #include <glog/logging.h>
 #include <type_traits>
 
+#include "tensor/storage_mode.h"
+
 namespace tensor {
 
 // This class defines capabilities of a tensor storage implementation.
@@ -24,12 +26,6 @@ class TensorStorage {
   using size_type = std::size_t;
   using value_type = ValueType;
   using pos_type = std::array<size_type, Order>;
-
-  // Supported tensor storage modes.
-  enum StorageMode {
-    DENSE,
-    SPARSE
-  };
 
   // Creates storage sufficiently large for the specified dimensions. The size of each dimension
   // must be strictly positive, the total number of coefficients must not overflow and the tensor

@@ -7,6 +7,7 @@
 #include <type_traits>
 
 #include "tensor/storage.h"
+#include "tensor/storage_mode.h"
 
 namespace tensor {
 namespace internal {
@@ -67,8 +68,8 @@ class DenseStorage : public TensorStorage<ValueType, Order> {
   }
 
   // Always returns dense storage mode.
-  typename base_type::StorageMode GetStorageMode() const override {
-    return base_type::DENSE;
+  StorageMode GetStorageMode() const override {
+    return StorageMode::DENSE;
   }
 
   // Returns the designated tensor coefficient.
