@@ -16,7 +16,7 @@ class TransposeExpr
   using value_type = typename base_type::value_type;
 
   // Create a scalar product expression representing the product of a scalar and a tensor.
-  TransposeExpr(const ValueType& scalar, const ExprType& expr);
+  TransposeExpr(const ExprType& expr);
 
   pos_type dimensions() const override {
     return expr_.dimensions();
@@ -40,7 +40,6 @@ class TransposeExpr
   }
 
  private:
-  const ValueType scalar_;
   const ExprType& expr_;
 };
 
