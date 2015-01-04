@@ -22,7 +22,7 @@ HadamardProduct<FirstExprType, SecondExprType, ValueType, Order>::size() const o
 }
 
 template <typename FirstExprType, typename SecondExprType, typename ValueType, std::size_t Order>
-typename const HadamardProduct<FirstExprType, SecondExprType, ValueType, Order>::value_type&
+typename const HadamardProduct<FirstExprType, SecondExprType, ValueType, Order>::value_type
 HadamardProduct<FirstExprType, SecondExprType, ValueType, Order>::
 operator[](const pos_type& i) {
   return first_expr_[i] * second_expr_[i];

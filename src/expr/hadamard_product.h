@@ -22,7 +22,7 @@ class HadamardProduct
 
   pos_type dimensions() const override;
   size_type size() const override;
-  const value_type& operator[](const pos_type& i) const override;
+  const value_type operator[](const pos_type& i) const override;
 
   // TODO(mnett,kintaro): Implement this once we have the capability to materialize expressions as
   // dense or sparse tensors.

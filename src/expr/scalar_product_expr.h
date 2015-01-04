@@ -19,7 +19,7 @@ class ScalarProductExpr
 
   pos_type dimensions() const override;
   size_type size() const override;
-  const value_type& operator[](const pos_type& i) const override;
+  const value_type operator[](const pos_type& i) const override;
   value_type abs() const override;
 
  private:

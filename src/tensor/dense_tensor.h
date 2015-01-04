@@ -28,7 +28,7 @@ class DenseTensor : public expr::TensorExpr<DenseTensor<ValueType, Order>, Value
   value_type& operator[](const pos_type&);
 
   // Returns a non-writable reference to the designated tensor coefficient.
-  const value_type& operator[](const pos_type&) const override;
+  const value_type operator[](const pos_type&) const override;
 
   // Returns the Frobenius norm of the tensor.
   value_type abs() const;

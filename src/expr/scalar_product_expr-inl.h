@@ -20,7 +20,7 @@ ScalarProductExpr<ExprType, ValueType, Order>::size() const {
 }
 
 template <typename ExprType, typename ValueType, std::size_t Order>
-const typename ScalarProductExpr<ExprType, ValueType, Order>::value_type&
+const typename ScalarProductExpr<ExprType, ValueType, Order>::value_type
 ScalarProductExpr<ExprType, ValueType, Order>::
 operator[](const pos_type& i) const {
   return scalar_ * expr_[i];

@@ -51,19 +51,19 @@ typename DenseTensor<ValueType, Order>::value_type& DenseTensor<ValueType, Order
 }
 
 template <typename ValueType, std::size_t Order>
+const typename DenseTensor<ValueType, Order>::value_type DenseTensor<ValueType, Order>::operator[](
+    const pos_type& index) const {
+  const auto linear_index = internal::IndexHelper<Order, Order - 1>::Run(index, dimensions_);
+  DCHECK_LT(linear_index, data_.size());
+  return data_[linear_index];
+}
+
+template <typename ValueType, std::size_t Order>
 typename DenseTensor<ValueType, Order>::value_type DenseTensor<ValueType, Order>::abs() const {
   const auto squared_norm = std::accumulate(
       data_.cbegin(), data_.cend(), value_type(0),
       [](const value_type& lhs, const value_type& rhs) { return lhs + std::pow(rhs, 2); });
   return std::sqrt(squared_norm);
-}
-
-template <typename ValueType, std::size_t Order>
-const typename DenseTensor<ValueType, Order>::value_type& DenseTensor<ValueType, Order>::operator[](
-    const pos_type& index) const {
-  const auto linear_index = internal::IndexHelper<Order, Order - 1>::Run(index, dimensions_);
-  DCHECK_LT(linear_index, data_.size());
-  return data_[linear_index];
 }
 
 template <typename ValueType, std::size_t Order>

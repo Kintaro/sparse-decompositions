@@ -21,7 +21,7 @@ class TensorExpr {
   virtual size_type size() const;
 
   // Retrieves the value at the designated index from within the tensor produced by this expression.
-  virtual const value_type& operator[](const pos_type&) const;
+  virtual const value_type operator[](const pos_type&) const;
 
   // Returns the Frobenius norm of the tensor produced by this expression.
   virtual value_type abs() const;

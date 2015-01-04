@@ -13,7 +13,7 @@ TensorExpr<ExprType, ValueType, Order>::size() const {
 }
 
 template <typename ExprType, typename ValueType, std::size_t Order>
-const typename TensorExpr<ExprType, ValueType, Order>::value_type&
+const typename TensorExpr<ExprType, ValueType, Order>::value_type
 TensorExpr<ExprType, ValueType, Order>::
 operator[](const pos_type& i) const {
   return static_cast<const ExprType&>(*this)[i];
