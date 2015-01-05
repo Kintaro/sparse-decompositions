@@ -7,6 +7,20 @@
 
 namespace expr {
 
+namespace internal {
+    template <typename T>
+    T conjugate(T t, typename std::enable_if<std::is_same<std::complex<float>, T>::value ||
+            std::is_same<std::complex<double>, T>::value ||
+            std::is_same<std::complex<long double>, T>::value>::type) {
+        return std::conj(t);
+    }
+
+    template <typename T>
+    T conjugate(T t, typename std::enable_if<std::is_floating_point<T>::value>::type) {
+        return t;
+    }
+} // namespace internal
+
 template <typename ExprType, typename ValueType>
 class ConjugateTransposeExpr
     : public MatrixExpr<ConjugateTransposeExpr<ExprType, ValueType>, ValueType> {
@@ -28,7 +42,7 @@ class ConjugateTransposeExpr
   }
 
   const value_type Get(const pos_type& index) const override {
-    return std::conj(expr_.Get(pos_type { index[1], index[0] }));
+    return internal::conjugate(expr_.Get(pos_type { index[1], index[0] }));
   }
 
   value_type abs() const override {
