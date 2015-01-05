@@ -4,14 +4,15 @@
 #include "tensor/storage_mode.h"
 #include "tensor/tensor.h"
 
+using expr::ConjugateTransposeExpr;
 using tensor::StorageMode;
-using tensor::Tensor;
+using tensor::Matrix;
 
 namespace test {
 namespace {
 
-Tensor<float, 2> CreateTensor() {
-  Tensor<float, 2> tensor({{2, 2}}, StorageMode::DENSE);
+Matrix<float> CreateMatrix() {
+  Matrix<float> tensor({{2, 2}}, StorageMode::DENSE);
   tensor.Set({{0, 0}}, 1.0f);
   tensor.Set({{0, 1}}, 2.0f);
   tensor.Set({{1, 0}}, 3.0f);
@@ -23,7 +24,8 @@ Tensor<float, 2> CreateTensor() {
 
 TEST(ConjugateTransposeExprTest, SanityCheck) {
   // Create a tensor and verify its norm.
-  // Tensor<float, 2> tensor = CreateTensor();
+  Matrix<float> tensor = CreateMatrix();
+  const auto conj = ~tensor;
   // EXPECT_FLOAT_EQ(5.477225575, tensor.abs());
 
   // // Scaling a tensor by 1 or -1 must preserve its norm.
