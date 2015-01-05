@@ -81,6 +81,9 @@ class Tensor : public expr::TensorExpr<Tensor<ValueType, Order>, ValueType, Orde
   std::unique_ptr<TensorStorage<value_type, Order>> storage_;
 };
 
+template <typename ValueType>
+using Matrix = Tensor<ValueType, 2>;
+
 }  // namespace tensor
 
 #endif  // TENSOR_TENSOR_H_
