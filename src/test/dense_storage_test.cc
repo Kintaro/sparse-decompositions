@@ -12,37 +12,6 @@ constexpr auto kLargeInteger = std::numeric_limits<std::size_t>::max();
 
 }  // namespace
 
-TEST(DenseStorageTest, OverflowSafeMultiplicationSanityCheck) {
-  // Don't die if either operand is zero.
-  EXPECT_EQ(0, tensor::internal::MultiplyOrDie<std::size_t>(0, kLargeInteger));
-  EXPECT_EQ(0, tensor::internal::MultiplyOrDie<std::size_t>(kLargeInteger, 0));
-
-  // // Should die on overflow.
-  EXPECT_DEATH(tensor::internal::MultiplyOrDie<std::size_t>(kLargeInteger, kLargeInteger), ".*");
-}
-
-TEST(DenseStorageTest, IndexHelperSanityCheck) {
-  // The linearized index of (0, ..., 0) must be 0 for any number of modes.
-  std::size_t index = tensor::internal::IndexHelper<1, 0>::Run({{0}}, {{1}});
-  EXPECT_EQ(0, index);
-  index = tensor::internal::IndexHelper<2, 1>::Run({{0, 0}}, {{1, 2}});
-  EXPECT_EQ(0, index);
-  index = tensor::internal::IndexHelper<3, 2>::Run({{0, 0, 0}}, {{1, 2, 6}});
-  EXPECT_EQ(0, index);
-  index = tensor::internal::IndexHelper<4, 3>::Run({{0, 0, 0, 0}}, {{1, 2, 6, 4}});
-  EXPECT_EQ(0, index);
-
-  // Linearize indices for a matrix should be row-major.
-  index = tensor::internal::IndexHelper<2, 1>::Run({{0, 0}}, {{2, 2}});
-  EXPECT_EQ(0, index);
-  index = tensor::internal::IndexHelper<2, 1>::Run({{1, 0}}, {{2, 2}});
-  EXPECT_EQ(1, index);
-  index = tensor::internal::IndexHelper<2, 1>::Run({{0, 1}}, {{2, 2}});
-  EXPECT_EQ(2, index);
-  index = tensor::internal::IndexHelper<2, 1>::Run({{1, 1}}, {{2, 2}});
-  EXPECT_EQ(3, index);
-}
-
 TEST(DenseStorageTest, ConstructorShouldDieOnEmptyModes) {
   EXPECT_DEATH((DenseStorage<float, 2>({{0, 3}})), ".*");
   EXPECT_DEATH((DenseStorage<float, 2>({{2, 0}})), ".*");
@@ -50,7 +19,8 @@ TEST(DenseStorageTest, ConstructorShouldDieOnEmptyModes) {
 }
 
 TEST(DenseStorageTest, ConstructorShouldDieOnOverflow) {
-  EXPECT_DEATH((DenseStorage<float, 2>({{kLargeInteger, kLargeInteger}})), ".*");
+  EXPECT_DEATH((DenseStorage<float, 2>({{kLargeInteger, kLargeInteger}})),
+               ".*");
 }
 
 TEST(DenseStorageTest, GetShouldDieOnIndexOutOfBounds) {
@@ -82,7 +52,7 @@ TEST(DenseStorageTest, DimensionsSanityCheck) {
 }
 
 TEST(DenseStorageTest, SizeSanityCheck) {
-  DenseStorage<float, 4> singular_storage({{1,1,1,1}});
+  DenseStorage<float, 4> singular_storage({{1, 1, 1, 1}});
   EXPECT_EQ(1, singular_storage.size());
 
   DenseStorage<float, 8> storage({{2, 2, 2, 2, 2, 2, 2, 2}});
