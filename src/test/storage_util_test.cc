@@ -51,4 +51,25 @@ TEST(StorageUtilTest, LinearIndexShouldBeIdentityOnFirstOrderTensors) {
   EXPECT_EQ(9, index);
 }
 
+TEST(StorageUtilTest, ReverseIndexHelperSanityCheck) {
+  auto index = tensor::ReverseIndexHelper<2, 1>::Run(2, {{2, 2}});
+  auto expected = std::array<std::uint64_t, 2>({{0, 1}});
+  EXPECT_EQ(expected, index);
+  index = tensor::ReverseIndexHelper<2, 1>::Run(1, {{2, 2}});
+  expected = std::array<std::uint64_t, 2>({{1, 0}});
+  EXPECT_EQ(expected, index);
+}
+
+TEST(StorageUtilTest, ReverseLinearIndexShouldBeIdentityOnFirstOrderTensors) {
+  auto index = tensor::ReverseIndexHelper<1, 0>::Run(0, {{10}});
+  auto expected = std::array<std::uint64_t, 1>({{0}});
+  EXPECT_EQ(expected, index);
+  expected = std::array<std::uint64_t, 1>({{7}});
+  index = tensor::ReverseIndexHelper<1, 0>::Run(7, {{10}});
+  EXPECT_EQ(expected, index);
+  expected = std::array<std::uint64_t, 1>({{9}});
+  index = tensor::ReverseIndexHelper<1, 0>::Run(9, {{10}});
+  EXPECT_EQ(expected, index);
+}
+
 }  // namespace test

@@ -40,6 +40,41 @@ struct IndexHelper<Order, 0> {
   }
 };
 
+
+// A recursive template functor to help with the conversion of
+// linear indices into tensor coordinates
+template <std::size_t Order, std::size_t N>
+struct ReverseIndexHelperInternal {
+  static inline void Run(
+      const std::size_t index,
+      const std::array<std::uint64_t, Order>& size,
+      std::array<std::uint64_t, Order>& result) {
+    result[Order - N - 1] = index % size[Order - N - 1];
+    const auto new_index = index / size[Order - N - 1];
+    ReverseIndexHelperInternal<Order, N - 1>::Run(new_index, size, result);
+  }
+};
+
+template <std::size_t Order>
+struct ReverseIndexHelperInternal<Order, 0> {
+  static inline void Run(
+      const std::size_t index,
+      const std::array<std::uint64_t, Order>& size,
+      std::array<std::uint64_t, Order>& result) {
+    result[Order - 1] = index;
+  }
+};
+
+template <std::size_t Order, std::size_t N>
+struct ReverseIndexHelper {
+  static inline std::array<std::uint64_t, Order> Run(
+      const std::size_t index,
+      const std::array<std::uint64_t, Order>& size) {
+    std::array<std::uint64_t, Order> result;
+    ReverseIndexHelperInternal<Order, N>::Run(index, size, result);
+    return result;
+  }
+};
 }  // namespace
 
 #endif  // TENSOR_STORAGE_UTIL_H_
