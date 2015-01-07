@@ -42,4 +42,13 @@ TEST(StorageUtilTest, IndexHelperSanityCheck) {
   EXPECT_EQ(3, index);
 }
 
+TEST(StorageUtilTest, LinearIndexShouldBeIdentityOnFirstOrderTensors) {
+  std::size_t index = tensor::IndexHelper<1, 0>::Run({{0}}, {{10}});
+  EXPECT_EQ(0, index);
+  index = tensor::IndexHelper<1, 0>::Run({{7}}, {{10}});
+  EXPECT_EQ(7, index);
+  index = tensor::IndexHelper<1, 0>::Run({{9}}, {{10}});
+  EXPECT_EQ(9, index);
+}
+
 }  // namespace test
